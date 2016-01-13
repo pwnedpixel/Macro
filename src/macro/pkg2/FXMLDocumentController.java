@@ -18,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 
 /**
  *
@@ -27,6 +29,7 @@ public class FXMLDocumentController implements Initializable
 {
 
     private LinkedList<SimpleMouseEvent> mouseEvents = new LinkedList();
+    private LinkedList<MouseCollection> mouseCollector = new LinkedList();
     private MouseCollection mouseRecorder = new MouseCollection();
     private final Robot r = com.sun.glass.ui.Application.GetApplication().createRobot();
     @FXML
@@ -34,16 +37,17 @@ public class FXMLDocumentController implements Initializable
 
     @FXML
     Button btnStopRecord;
-    
-    @FXML 
+
+    @FXML
     Menu menuBarExit;
-    
+
     @FXML
     Button btnPlayback;
-    
+
     @FXML
     private void playbackEvent(ActionEvent e)
     {
+        mouseRecorder.startRecording();
         for (SimpleMouseEvent current : mouseEvents) {
             r.mouseMove(current.x, current.y);
             try {
@@ -57,7 +61,7 @@ public class FXMLDocumentController implements Initializable
 //        playbackThread.setList(mouseEvents);
 //        playbackThread.start();
     }
-    
+
     @FXML
     private void menuBarExitEvent(ActionEvent e)
     {
@@ -79,12 +83,27 @@ public class FXMLDocumentController implements Initializable
         System.out.println("Stop Recording");
         mouseRecorder.stopRecording();
     }
+    
+    private void initHooks()
+    {
+        try{
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException e){
+            System.err.println("There was a problem registering the native hook.");
+            System.err.println(e.getMessage());
+        }
+        GlobalMouseListener mouseListener = new GlobalMouseListener();
+        GlobalScreen.addNativeMouseListener(mouseListener);
+        mouseListener.setThreads(mouseCollector);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
         mouseRecorder.setList(mouseEvents);
         mouseRecorder.start();
+        mouseCollector.add(mouseRecorder);
+        initHooks();
     }
 
 }

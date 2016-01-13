@@ -11,9 +11,9 @@ package macro.pkg2;
  */
 public class SimpleMouseEvent
 {
-    public int x;
-    public int y;
-    public int click;
+    public int x;//x coordinates
+    public int y;//y coordinates
+    public int click;//click type. 0 = nothing, 1 = click, 2=mouse down, 3=mouse up.
     public SimpleMouseEvent(int x, int y, int click)
     {
         this.x = x;

@@ -37,7 +37,6 @@ public class MouseCollection extends Thread
         System.out.println("Collecting Mouse Mouvement");
         while (keepAlive) {
             collect();
-            System.out.println("waiting");
             try {
                 Thread.sleep(250);
             } catch (InterruptedException ex) {
@@ -45,7 +44,7 @@ public class MouseCollection extends Thread
             }
         }
     }
-    
+
     /**
      * Starts adding points to the mouseEvents list every 10ms.
      */
@@ -59,14 +58,14 @@ public class MouseCollection extends Thread
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-            
+
         }
     }
 
     public void mouseDown()
     {
         mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 1));
-        System.out.println("Added : "+mouseEvents.getLast().toString());
+        System.out.println("Added : " + mouseEvents.getLast().toString());
     }
 
     public void kill()
@@ -83,6 +82,7 @@ public class MouseCollection extends Thread
     {
         this.record = false;
     }
+
     public void setList(LinkedList<SimpleMouseEvent> mouseEvents)
     {
         this.mouseEvents = mouseEvents;
