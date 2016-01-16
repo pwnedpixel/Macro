@@ -6,6 +6,7 @@
 package macro.pkg2;
 
 import com.sun.glass.ui.Robot;
+import java.awt.AWTException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -18,6 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.input.InputEvent;
+import static javafx.scene.input.MouseEvent.*;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
@@ -29,9 +32,9 @@ public class FXMLDocumentController implements Initializable
 {
 
     private LinkedList<SimpleMouseEvent> mouseEvents = new LinkedList();
-    private LinkedList<MouseCollection> mouseCollector = new LinkedList();
+    private Robot r = com.sun.glass.ui.Application.GetApplication().createRobot();
+    private GlobalMouseListener mouseListener = new GlobalMouseListener();
     private MouseCollection mouseRecorder = new MouseCollection();
-    private final Robot r = com.sun.glass.ui.Application.GetApplication().createRobot();
     @FXML
     Button btnStartRecord;
 
@@ -47,9 +50,15 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void playbackEvent(ActionEvent e)
     {
-        mouseRecorder.startRecording();
+        mouseRecorder.stopRecording();
         for (SimpleMouseEvent current : mouseEvents) {
             r.mouseMove(current.x, current.y);
+            if (current.click == 1) {
+                System.out.println("CLICK");
+                r.mousePress(0);
+                r.mouseRelease(0);
+                //r.mouseRelease(InputEvent.BUTTON1_MASK);
+            }
             try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
@@ -75,6 +84,7 @@ public class FXMLDocumentController implements Initializable
         mouseEvents.clear();
         System.out.println("Start Recording");
         mouseRecorder.startRecording();
+        initHooks();
     }
 
     @FXML
@@ -82,19 +92,33 @@ public class FXMLDocumentController implements Initializable
     {
         System.out.println("Stop Recording");
         mouseRecorder.stopRecording();
+        removeHooks();
     }
-    
+
     private void initHooks()
     {
-        try{
+        // Get the logger for "org.jnativehook" and set the level to warning.
+        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+        logger.setLevel(Level.WARNING);
+        try {
             GlobalScreen.registerNativeHook();
-        } catch (NativeHookException e){
+        } catch (NativeHookException e) {
             System.err.println("There was a problem registering the native hook.");
             System.err.println(e.getMessage());
         }
-        GlobalMouseListener mouseListener = new GlobalMouseListener();
+
         GlobalScreen.addNativeMouseListener(mouseListener);
-        mouseListener.setThreads(mouseCollector);
+        mouseListener.passRecorder(mouseRecorder);
+    }
+
+    private void removeHooks()
+    {
+        GlobalScreen.removeNativeMouseListener(mouseListener);
+        try {
+            GlobalScreen.unregisterNativeHook();
+        } catch (NativeHookException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -102,8 +126,6 @@ public class FXMLDocumentController implements Initializable
     {
         mouseRecorder.setList(mouseEvents);
         mouseRecorder.start();
-        mouseCollector.add(mouseRecorder);
-        initHooks();
     }
 
 }

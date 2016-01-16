@@ -64,8 +64,10 @@ public class MouseCollection extends Thread
 
     public void mouseDown()
     {
-        mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 1));
-        System.out.println("Added : " + mouseEvents.getLast().toString());
+        if (record) {
+            mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 1));
+            System.out.println("Added : " + mouseEvents.getLast().toString());
+        }
     }
 
     public void kill()

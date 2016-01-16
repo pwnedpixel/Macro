@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="626.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="macro.pkg2.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="macro.pkg2.FXMLDocumentController">
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
       <Button fx:id="btnStartRecord" layoutX="21.0" layoutY="79.0" mnemonicParsing="false" onAction="#startRecordingEvent" text="Start Recording" />
@@ -23,9 +23,10 @@
               <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
-          <Menu fx:id="menuBarExit" mnemonicParsing="false" onAction="#menuBarExitEvent" text="Exit" />
+          <Menu fx:id="menuBarExit" mnemonicParsing="false" onAction="#menuBarExitEvent" onMenuValidation="#menuBarExitEvent" text="Exit" />
         </menus>
       </MenuBar>
       <Button fx:id="btnPlayback" layoutX="21.0" layoutY="151.0" mnemonicParsing="false" onAction="#playbackEvent" prefHeight="25.0" prefWidth="99.0" text="Playback" />
+      <CheckBox layoutX="34.0" layoutY="249.0" mnemonicParsing="false" text="CheckBox" />
     </children>
 </AnchorPane>

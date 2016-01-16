@@ -27,7 +27,7 @@ public class MousePlayback extends Thread
         for (SimpleMouseEvent current : mouseEvents) {
             r.mouseMove(current.x, current.y);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -15,18 +15,20 @@ import org.jnativehook.mouse.NativeMouseInputListener;
  */
 public class GlobalMouseListener implements NativeMouseInputListener
 {
-    LinkedList<MouseCollection> mouseCollectors;
+
+    private MouseCollection mouseRecorder;
+
     @Override
     public void nativeMouseClicked(NativeMouseEvent e)
     {
         System.out.println("Mouse Clicked");
-        mouseCollectors.get(0).mouseDown();
+        mouseRecorder.mouseDown();
     }
 
     @Override
     public void nativeMousePressed(NativeMouseEvent e)
     {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -38,18 +40,18 @@ public class GlobalMouseListener implements NativeMouseInputListener
     @Override
     public void nativeMouseMoved(NativeMouseEvent e)
     {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void nativeMouseDragged(NativeMouseEvent e)
     {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public void setThreads(LinkedList<MouseCollection> mouseCollectors)
+
+    public void passRecorder(MouseCollection mouseRecorder)
     {
-        this.mouseCollectors = mouseCollectors;
+        this.mouseRecorder = mouseRecorder;
     }
-    
+
 }
