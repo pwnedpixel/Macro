@@ -6,7 +6,8 @@
 package macro.pkg2;
 
 /**
- *
+ * A simple mouse event, holds coordinates and the type of click. A list of these will be recorded
+ * and them played back.
  * @author Andy
  */
 public class SimpleMouseEvent

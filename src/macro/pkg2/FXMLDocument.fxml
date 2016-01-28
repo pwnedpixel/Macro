@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -28,5 +30,6 @@
       </MenuBar>
       <Button fx:id="btnPlayback" layoutX="21.0" layoutY="151.0" mnemonicParsing="false" onAction="#playbackEvent" prefHeight="25.0" prefWidth="99.0" text="Playback" />
       <CheckBox layoutX="34.0" layoutY="249.0" mnemonicParsing="false" text="CheckBox" />
+      <TextArea fx:id="textOutput" layoutX="325.0" layoutY="37.0" prefHeight="406.0" prefWidth="279.0" />
     </children>
 </AnchorPane>

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javafx.scene.input.MouseEvent;
 
 /**
- *
+ * Mouse Collection object adds the mouse position to a list at a given inteval. 
  * @author Andy
  *
  */
@@ -46,7 +46,7 @@ public class MouseCollection extends Thread
     }
 
     /**
-     * Starts adding points to the mouseEvents list every 10ms.
+     * Starts adding points to the mouseEvents list every 5ms.
      */
     private void collect()
     {
@@ -54,7 +54,7 @@ public class MouseCollection extends Thread
             mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 0));
             //System.out.println("Added : "+mouseEvents.getLast().toString());
             try {
-                Thread.sleep(1);
+                Thread.sleep(5);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
