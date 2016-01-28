@@ -22,19 +22,21 @@ public class GlobalMouseListener implements NativeMouseInputListener
     public void nativeMouseClicked(NativeMouseEvent e)
     {
         System.out.println("Mouse Clicked");
-        mouseRecorder.mouseDown();
+        //mouseRecorder.mouseClicked();
     }
 
     @Override
     public void nativeMousePressed(NativeMouseEvent e)
     {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Mouse Down");
+        mouseRecorder.mouseDown();
     }
 
     @Override
     public void nativeMouseReleased(NativeMouseEvent e)
     {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Mouse Up");
+        mouseRecorder.mouseUp();
     }
 
     @Override

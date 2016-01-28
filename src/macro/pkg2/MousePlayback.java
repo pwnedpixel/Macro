@@ -21,6 +21,7 @@ public class MousePlayback extends Thread {
     public boolean playback = false;
     private Robot r = null;
 
+    @Override
     public void run() {
         try {
             r = new Robot();
@@ -34,6 +35,11 @@ public class MousePlayback extends Thread {
                     r.mouseMove(current.x, current.y);
                     if (current.click == 1) {
                         click();
+                    } else if (current.click == 2) {
+                        r.mousePress(BUTTON1_MASK);
+                    } else if(current.click == 3)
+                    {
+                        r.mouseRelease(BUTTON1_MASK);
                     }
                     try {
                         Thread.sleep(5);
@@ -52,7 +58,7 @@ public class MousePlayback extends Thread {
     }
 
     public void click() {
-        
+
         System.out.println("CLICKING");
         r.mousePress(BUTTON1_DOWN_MASK);
         r.mouseRelease(BUTTON1_DOWN_MASK);
@@ -60,5 +66,9 @@ public class MousePlayback extends Thread {
 
     public void setList(LinkedList<SimpleMouseEvent> mouseEvents) {
         this.mouseEvents = mouseEvents;
+    }
+
+    public void kill() {
+        keepAlive = false;
     }
 }
