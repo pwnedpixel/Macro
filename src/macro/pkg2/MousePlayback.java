@@ -65,7 +65,7 @@ public class MousePlayback extends Thread {
                 r.mouseRelease(BUTTON1_MASK);
             }
             try {
-                Thread.sleep(1);
+                Thread.sleep(2);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
