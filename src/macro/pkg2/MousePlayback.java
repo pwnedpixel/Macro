@@ -39,7 +39,7 @@ public class MousePlayback extends Thread {
                     }
                 }
                 playback = false;
-                gui.log("Macro Complete.");
+                gui.log("Macro Finished");
             }
 
             try {
@@ -51,11 +51,14 @@ public class MousePlayback extends Thread {
     }
 
     private void playback() {
-        System.out.println("Playing back");
+        System.out.println("Playing Macro...");
+        double x = 1;
         for (SimpleMouseEvent current : mouseEvents) {
             if (!playback) {
                 break;
             }
+            gui.progressBar.setProgress(x / mouseEvents.size());
+            x++;
             r.mouseMove(current.x, current.y);
             if (current.click == 1) {
                 click();

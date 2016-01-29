@@ -6,6 +6,8 @@
 package macro.pkg2;
 
 import java.util.LinkedList;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 
 /**
@@ -13,40 +15,45 @@ import javafx.scene.control.TextArea;
  * @author andyk
  */
 public class GuiController {
-    
+
     TextArea logOutput;
     TextArea textOutput;
+    ProgressBar progressBar;
     LinkedList<SimpleMouseEvent> mouseEvents;
     public int count = 1;
-    
-    public GuiController(TextArea log, TextArea textOutput,LinkedList<SimpleMouseEvent> mouseEvents)
-    {
-        this.logOutput=log;
-        this.textOutput=textOutput;
+
+    public GuiController(TextArea log, TextArea textOutput, LinkedList<SimpleMouseEvent> mouseEvents, ProgressBar progressBar) {
+        this.logOutput = log;
+        this.textOutput = textOutput;
         this.mouseEvents = mouseEvents;
+        this.progressBar = progressBar;
     }
-    
-    public void log(String log)
-    {
-        logOutput.appendText(log+"\n");
+
+    public void log(String log) {
+        logOutput.appendText("\n"+log);
     }
-    
-    public void refreshActionList()
+    public void logSL(String log)
     {
+        logOutput.appendText(log);
+    }
+
+    public void refreshActionList() {
         textOutput.clear();
-        String output="";
-        int x=1;
-        for (SimpleMouseEvent mouseEvent : mouseEvents) {     
-           output+=("Action " +  x+ ":    " + mouseEvent.toString() + "\n");
+        String output = "";
+        double x = 1;
+        log("Processing...");
+        for (SimpleMouseEvent mouseEvent : mouseEvents) {
+            progressBar.setProgress(x / mouseEvents.size());
+            output += ("Action " + x + ":    " + mouseEvent.toString() + "\n");
             x++;
         }
         textOutput.setText(output);
+        logSL(" Done");
     }
-    
-    public void setLoopCount(int count)
-    {
+
+    public void setLoopCount(int count) {
         this.count = count;
         System.out.println(this.count);
     }
-    
+
 }
