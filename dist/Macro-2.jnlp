@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Macro-2.jnlp">
+  <information>
+    <title>Macro-2</title>
+    <vendor>Andy</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Macro-2.jar" size="13693" download="eager" />
+    <jar href="lib/jnativehook-2.0.3.jar" size="193421" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Macro-2" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="macro.pkg2.Macro2"  name="Macro-2" />
+  <update check="always"/>
+</jnlp>
