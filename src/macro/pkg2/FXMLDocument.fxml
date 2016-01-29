@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -20,16 +21,20 @@
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu fx:id="menuBarExit" mnemonicParsing="false" onAction="#menuBarExitEvent" onMenuValidation="#menuBarExitEvent" text="Exit" />
+          <Menu mnemonicParsing="false" text="System">
+               <items>
+                  <MenuItem fx:id="menuBarExit" mnemonicParsing="false" onAction="#menuBarExitEvent" text="Exit" />
+               </items></Menu>
         </menus>
       </MenuBar>
       <Button fx:id="btnPlayback" layoutX="21.0" layoutY="151.0" mnemonicParsing="false" onAction="#playbackEvent" prefHeight="25.0" prefWidth="99.0" text="Playback" />
-      <CheckBox layoutX="34.0" layoutY="249.0" mnemonicParsing="false" text="CheckBox" />
-      <TextArea fx:id="textOutput" layoutX="325.0" layoutY="37.0" prefHeight="406.0" prefWidth="279.0" />
+      <TextArea fx:id="textOutput" editable="false" layoutX="309.0" layoutY="51.0" prefHeight="200.0" prefWidth="303.0" />
+      <TextArea fx:id="logOutput" editable="false" layoutX="309.0" layoutY="344.0" prefHeight="97.0" prefWidth="303.0" wrapText="true" />
+      <Label layoutX="309.0" layoutY="34.0" text="Recorded Points:" />
+      <Label layoutX="309.0" layoutY="327.0" text="Log:" />
+      <TextArea editable="false" layoutX="20.0" layoutY="339.0" prefHeight="76.0" prefWidth="155.0" text="Hotkeys:&#10;Ctrl+1: Starts Recording&#10;Ctrl+2: Stops Recording&#10;Ctrl+3: Stops Playback" />
+      <Button fx:id="setLoop" layoutX="81.0" layoutY="205.0" mnemonicParsing="false" onAction="#setLoopCount" text="Set" />
+      <Label layoutX="34.0" layoutY="188.0" text="Loop x Times:" />
+      <TextField fx:id="loopCount" layoutX="23.0" layoutY="205.0" prefHeight="25.0" prefWidth="53.0" promptText="1" />
     </children>
 </AnchorPane>

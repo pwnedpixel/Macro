@@ -5,7 +5,6 @@
  */
 package macro.pkg2;
 
-import java.awt.AWTException;
 import java.awt.Robot;
 import java.net.URL;
 import java.util.LinkedList;
@@ -16,13 +15,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.InputEvent;
-import static javafx.scene.input.MouseEvent.*;
-import javafx.scene.text.TextFlow;
+import javafx.scene.control.TextField;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
@@ -31,11 +27,15 @@ import org.jnativehook.NativeHookException;
  * @author Andy
  */
 public class FXMLDocumentController implements Initializable {
+
     private Robot r = null;
+    private final Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
     private MousePlayback mousePlayback = new MousePlayback();
     private LinkedList<SimpleMouseEvent> mouseEvents = new LinkedList();
     private GlobalMouseListener mouseListener = new GlobalMouseListener();
+    private GlobalKeyListener keyboardListener = new GlobalKeyListener();
     private MouseCollection mouseRecorder = new MouseCollection();
+    private GuiController gui;
     @FXML
     Button btnStartRecord;
 
@@ -46,61 +46,75 @@ public class FXMLDocumentController implements Initializable {
     Button btnStopRecord;
 
     @FXML
-    Menu menuBarExit;
+    MenuItem menuBarExit;
 
     @FXML
     Button btnPlayback;
 
     @FXML
+    TextArea logOutput;
+
+    @FXML
+    TextField loopCount;
+
+    @FXML
+    Button setLoop;
+
+    @FXML
     private void playbackEvent(ActionEvent e) {
         mouseRecorder.stopRecording();
-        mousePlayback.playback=true;
+        gui.log("Running Macro...");
+        mousePlayback.playback = true;
 
     }
 
     @FXML
     private void menuBarExitEvent(ActionEvent e) {
-        System.out.println("Exit");
+        removeHooks();
+        gui.log("Exiting...");
         mouseRecorder.kill();
+        mousePlayback.kill();
+        System.exit(1);
     }
 
     @FXML
     private void startRecordingEvent(ActionEvent e) {
-        mouseEvents.clear();
         System.out.println("Start Recording");
         mouseRecorder.startRecording();
-        initHooks();
+        // initMouseHooks();
     }
 
     @FXML
     private void stopRecordingEvent(ActionEvent e) {
         System.out.println("Stop Recording");
         mouseRecorder.stopRecording();
-        String output = "";
-        for (int x = 0; x < mouseEvents.size(); x++) {
-            output += ("Action " + x + ":    " + mouseEvents.get(x).toString() + "\n");
-        }
-        textOutput.setText(output);
-        removeHooks();
+    }
+
+    @FXML
+    private void setLoopCount(ActionEvent e) {
+        gui.setLoopCount(Integer.parseInt(loopCount.getText()));
+        
     }
 
     private void initHooks() {
-        // Get the logger for "org.jnativehook" and set the level to warning.
-        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-        logger.setLevel(Level.WARNING);
         try {
             GlobalScreen.registerNativeHook();
-        } catch (NativeHookException e) {
+        } catch (NativeHookException ex) {
             System.err.println("There was a problem registering the native hook.");
-            System.err.println(e.getMessage());
-        }
+            System.err.println(ex.getMessage());
 
+            System.exit(1);
+        }
+        GlobalScreen.addNativeKeyListener(keyboardListener);
         GlobalScreen.addNativeMouseListener(mouseListener);
+
         mouseListener.passRecorder(mouseRecorder);
+        keyboardListener.passParams(mouseRecorder, mousePlayback);
     }
 
     private void removeHooks() {
         GlobalScreen.removeNativeMouseListener(mouseListener);
+        GlobalScreen.removeNativeKeyListener(keyboardListener);
         try {
             GlobalScreen.unregisterNativeHook();
         } catch (NativeHookException ex) {
@@ -110,10 +124,13 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        mouseRecorder.setList(mouseEvents);
+        logger.setLevel(Level.WARNING);
+        gui = new GuiController(logOutput, textOutput, mouseEvents);
+        mouseRecorder.setList(mouseEvents, gui);
         mouseRecorder.start();
-        mousePlayback.setList(mouseEvents);
+        mousePlayback.setList(mouseEvents, gui);
         mousePlayback.start();
+        initHooks();
     }
 
 }

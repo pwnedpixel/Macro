@@ -5,11 +5,83 @@
  */
 package macro.pkg2;
 
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
+
 /**
  *
  * @author Andy
  */
-public class GlobalKeyListener
-{
-    
+public class GlobalKeyListener implements NativeKeyListener {
+
+    boolean ctrlDown = false;
+    boolean oneDown = false;
+    boolean twoDown = false;
+    boolean threeDown = false;
+    private MouseCollection mouseRecorder;
+    private MousePlayback mousePlayback;
+
+    @Override
+    public void nativeKeyPressed(NativeKeyEvent nke) {
+        //System.out.println("Key Pressed: " + nke.getKeyCode());
+
+        if (nke.getKeyCode() == 29) //control
+        {
+            ctrlDown = true;
+            checkKeys();
+        } else if (nke.getKeyCode() == 2)//one
+        {
+            oneDown = true;
+            checkKeys();
+        } else if (nke.getKeyCode() == 3)//two
+        {
+            twoDown = true;
+            checkKeys();
+        } else if (nke.getKeyCode() == 4)//three
+        {
+            threeDown = true;
+            checkKeys();
+        }
+    }
+
+    @Override
+    public void nativeKeyReleased(NativeKeyEvent nke) {
+       // System.out.println(ctrlDown+" "+oneDown+" "+twoDown+" "+threeDown);
+        if (nke.getKeyCode() == 29) {
+            ctrlDown = false;
+        } else if (nke.getKeyCode() == 2) {
+            oneDown = false;
+        } else if (nke.getKeyCode() == 3) {
+            twoDown = false;
+        } else if (nke.getKeyCode() == 4)//three
+        {
+            threeDown = false;
+        }
+    }
+
+    @Override
+    public void nativeKeyTyped(NativeKeyEvent nke) {
+        System.out.println("KeyTyped");
+    }
+
+    private void checkKeys() {
+        if (ctrlDown == true && oneDown == true) {
+            //  System.out.println("Shortcut to start");
+            mouseRecorder.startRecording();
+        }
+        if (ctrlDown == true && twoDown == true) {
+            //System.out.println("Shortcut to stop");
+            mouseRecorder.stopRecording();
+        }
+        if (ctrlDown == true && threeDown == true) {
+            System.out.println("STOPPPP");
+            mousePlayback.stopPlayback();
+        }
+    }
+
+    public void passParams(MouseCollection mouseRecorder, MousePlayback mousePlayback) {
+        this.mouseRecorder = mouseRecorder;
+        this.mousePlayback = mousePlayback;
+    }
+
 }

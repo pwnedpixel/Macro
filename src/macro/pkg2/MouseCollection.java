@@ -5,13 +5,11 @@
  */
 package macro.pkg2;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
 import java.awt.MouseInfo;
-import java.awt.event.MouseAdapter;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.TextArea;
 
 /**
  * Mouse Collection object adds the mouse position to a list at a given inteval.
@@ -21,7 +19,8 @@ import javafx.scene.input.MouseEvent;
  */
 public class MouseCollection extends Thread {
 
-    private boolean record = false;
+    public boolean record = false;
+    GuiController gui;
     private boolean keepAlive = true;
     private LinkedList<SimpleMouseEvent> mouseEvents;
     int index = 0;
@@ -33,7 +32,7 @@ public class MouseCollection extends Thread {
      */
     @Override
     public void run() {
-        System.out.println("Collecting Mouse Mouvement");
+        //System.out.println("Collecting Mouse Mouvement");
         while (keepAlive) {
             collect();
             try {
@@ -52,32 +51,35 @@ public class MouseCollection extends Thread {
             mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 0));
             //System.out.println("Added : "+mouseEvents.getLast().toString());
             try {
-                Thread.sleep(5);
+                Thread.sleep(2);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-
+            if (!record) {
+                gui.log("Recording Stopped.");
+                gui.refreshActionList();
+            }
         }
     }
 
     public void mouseClicked() {
         if (record) {
             mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 1));
-            System.out.println("Added : " + mouseEvents.getLast().toString());
+            //System.out.println("Added : " + mouseEvents.getLast().toString());
         }
     }
 
     public void mouseDown() {
         if (record) {
             mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 2));
-            System.out.println("Added: " + mouseEvents.getLast().toString());
+            //System.out.println("Added: " + mouseEvents.getLast().toString());
         }
     }
-    
+
     public void mouseUp() {
         if (record) {
             mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, 3));
-            System.out.println("Added: " + mouseEvents.getLast().toString());
+           // System.out.println("Added: " + mouseEvents.getLast().toString());
         }
     }
 
@@ -86,6 +88,8 @@ public class MouseCollection extends Thread {
     }
 
     public void startRecording() {
+        gui.log("Recording Macro...");
+        mouseEvents.clear();
         this.record = true;
     }
 
@@ -93,7 +97,8 @@ public class MouseCollection extends Thread {
         this.record = false;
     }
 
-    public void setList(LinkedList<SimpleMouseEvent> mouseEvents) {
+    public void setList(LinkedList<SimpleMouseEvent> mouseEvents, GuiController gui) {
         this.mouseEvents = mouseEvents;
+        this.gui = gui;
     }
 }

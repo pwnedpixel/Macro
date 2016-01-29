@@ -5,7 +5,6 @@
  */
 package macro.pkg2;
 
-import java.util.LinkedList;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
 
@@ -21,21 +20,18 @@ public class GlobalMouseListener implements NativeMouseInputListener
     @Override
     public void nativeMouseClicked(NativeMouseEvent e)
     {
-        System.out.println("Mouse Clicked");
         //mouseRecorder.mouseClicked();
     }
 
     @Override
     public void nativeMousePressed(NativeMouseEvent e)
     {
-        System.out.println("Mouse Down");
         mouseRecorder.mouseDown();
     }
 
     @Override
     public void nativeMouseReleased(NativeMouseEvent e)
     {
-        System.out.println("Mouse Up");
         mouseRecorder.mouseUp();
     }
 
