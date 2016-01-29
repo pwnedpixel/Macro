@@ -11,7 +11,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="macro.pkg2.FXMLDocumentController">
     <children>
-        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+        <Label fx:id="label" layoutX="23.0" layoutY="34.0" minHeight="16" minWidth="69" text="USE SYSTEM-&gt;EXIT TO CLOSE PROGRAM" textFill="RED" />
       <Button fx:id="btnStartRecord" layoutX="21.0" layoutY="79.0" mnemonicParsing="false" onAction="#startRecordingEvent" text="Start Recording" />
       <Button fx:id="btnStopRecord" layoutX="21.0" layoutY="116.0" mnemonicParsing="false" onAction="#stopRecordingEvent" prefHeight="25.0" prefWidth="99.0" text="Stop Recording" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="626.0">

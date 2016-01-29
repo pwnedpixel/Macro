@@ -32,12 +32,14 @@ public class MousePlayback extends Thread {
         while (keepAlive) {
             while (playback) {
                 for (int x = 0; x < gui.count; x++) {
-                    playback();
+                    gui.log("Progress: "+(x+1)+"/"+gui.count);
+                    playback();                    
                     if (!playback) {
                         break;
                     }
                 }
                 playback = false;
+                gui.log("Macro Complete.");
             }
 
             try {
@@ -68,7 +70,7 @@ public class MousePlayback extends Thread {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        gui.log("Macro Complete.");
+        
     }
 
     public void click() {
