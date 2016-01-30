@@ -20,7 +20,7 @@ public class GlobalMouseListener implements NativeMouseInputListener
     @Override
     public void nativeMouseClicked(NativeMouseEvent e)
     {
-        //mouseRecorder.mouseClicked();
+
     }
 
     @Override
@@ -38,7 +38,7 @@ public class GlobalMouseListener implements NativeMouseInputListener
     @Override
     public void nativeMouseMoved(NativeMouseEvent e)
     {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.mouseRecorder.mouseMoved();
     }
 
     @Override

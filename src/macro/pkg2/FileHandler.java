@@ -78,7 +78,6 @@ public class FileHandler
             }
               click=Integer.parseInt(strclick);
              mouseEvents.add(new SimpleMouseEvent(x, y, click));
-            System.out.println("Added " + mouseEvents.getLast().toString());
              strx="";
              stry="";
              strclick="";

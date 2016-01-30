@@ -14,7 +14,8 @@ import javafx.scene.control.TextArea;
  *
  * @author Andy
  */
-public class MousePlayback extends Thread {
+public class MousePlayback extends Thread
+{
 
     LinkedList<SimpleMouseEvent> mouseEvents;
     private boolean keepAlive = true;
@@ -23,7 +24,8 @@ public class MousePlayback extends Thread {
     private Robot r = null;
 
     @Override
-    public void run() {
+    public void run()
+    {
         try {
             r = new Robot();
         } catch (AWTException ex) {
@@ -32,8 +34,8 @@ public class MousePlayback extends Thread {
         while (keepAlive) {
             while (playback) {
                 for (int x = 0; x < gui.count; x++) {
-                    gui.log("Progress: "+(x+1)+"/"+gui.count);
-                    playback();                    
+                    gui.log("Progress: " + (x + 1) + "/" + gui.count);
+                    playback();
                     if (!playback) {
                         break;
                     }
@@ -50,7 +52,8 @@ public class MousePlayback extends Thread {
         }
     }
 
-    private void playback() {
+    private void playback()
+    {
         System.out.println("Playing Macro...");
         double x = 1;
         for (SimpleMouseEvent current : mouseEvents) {
@@ -60,12 +63,17 @@ public class MousePlayback extends Thread {
             gui.progressBar.setProgress(x / mouseEvents.size());
             x++;
             r.mouseMove(current.x, current.y);
-            if (current.click == 1) {
-                click();
-            } else if (current.click == 2) {
+            if (current.click == -1) {
                 r.mousePress(BUTTON1_MASK);
-            } else if (current.click == 3) {
+            } else if (current.click == -2) {
                 r.mouseRelease(BUTTON1_MASK);
+            } else if(current.click>0)
+            {
+                 try {
+                Thread.sleep(current.click);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
             try {
                 Thread.sleep(2);
@@ -73,25 +81,29 @@ public class MousePlayback extends Thread {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
-    public void click() {
+    public void click()
+    {
         r.mousePress(BUTTON1_DOWN_MASK);
         r.mouseRelease(BUTTON1_DOWN_MASK);
     }
 
-    public void stopPlayback() {
+    public void stopPlayback()
+    {
         playback = false;
 
     }
 
-    public void setList(LinkedList<SimpleMouseEvent> mouseEvents, GuiController gui) {
+    public void setList(LinkedList<SimpleMouseEvent> mouseEvents, GuiController gui)
+    {
         this.mouseEvents = mouseEvents;
         this.gui = gui;
     }
 
-    public void kill() {
+    public void kill()
+    {
         keepAlive = false;
     }
 
