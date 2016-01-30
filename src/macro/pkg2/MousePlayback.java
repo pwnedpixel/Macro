@@ -64,16 +64,21 @@ public class MousePlayback extends Thread
             x++;
             r.mouseMove(current.x, current.y);
             if (current.click == -1) {
-                r.mousePress(BUTTON1_MASK);
+                r.mousePress(BUTTON1_MASK);//press left mouse
             } else if (current.click == -2) {
-                r.mouseRelease(BUTTON1_MASK);
-            } else if(current.click>0)
-            {
-                 try {
-                Thread.sleep(current.click);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                r.mouseRelease(BUTTON1_MASK);//release left mouse
+            } else if (current.click == -3) {
+                r.mousePress(BUTTON3_MASK);//press right mouse
+                System.out.println("Press right mouse");
+            } else if (current.click == -4) {
+                r.mouseRelease(BUTTON3_MASK);//release right mouse
+                System.out.println("Release right mouse");
+            }else if (current.click > 0) {
+                try {
+                    Thread.sleep(current.click);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             try {
                 Thread.sleep(2);

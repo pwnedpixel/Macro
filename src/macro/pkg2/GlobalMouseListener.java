@@ -26,13 +26,13 @@ public class GlobalMouseListener implements NativeMouseInputListener
     @Override
     public void nativeMousePressed(NativeMouseEvent e)
     {
-        mouseRecorder.mouseDown();
+        mouseRecorder.mouseDown(e.getButton());
     }
 
     @Override
     public void nativeMouseReleased(NativeMouseEvent e)
     {
-        mouseRecorder.mouseUp();
+        mouseRecorder.mouseUp(e.getButton());
     }
 
     @Override

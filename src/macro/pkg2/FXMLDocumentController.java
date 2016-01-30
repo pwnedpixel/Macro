@@ -89,6 +89,7 @@ public class FXMLDocumentController implements Initializable {
     private void menuBarExitEvent(ActionEvent e) {
         removeHooks();
         gui.log("Exiting...");
+        mouseRecorder.stopRecording();
         mouseRecorder.kill();
         mousePlayback.kill();
         Platform.exit();

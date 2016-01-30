@@ -50,6 +50,7 @@ public class MouseCollection extends Thread
 
     /**
      * Starts adding points to the mouseEvents list every 5ms.
+     *
      */
     private void collect()
     {
@@ -84,21 +85,31 @@ public class MouseCollection extends Thread
         }
     }
 
-    public void mouseDown()
-    {
+    public void mouseDown(int button)
+    {//-1 for leftmouseDown, -3 for right mouse down
         if (record) {
             unpause();
-            mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, -1));
+            if (button == 1) {
+                mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, -1));
+            } else if (button == 2) {
+                mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, -3));
+            }
             //System.out.println("Added: " + mouseEvents.getLast().toString());
         }
     }
 
-    public void mouseUp()
-    {
+    public void mouseUp(int button)
+    {//-2 for left mouse up, -4 for right mouse up
         if (record) {
             unpause();
+            if (button==1)
+            {
             mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, -2));
-            // System.out.println("Added: " + mouseEvents.getLast().toString());
+            } else if(button==2)
+            {
+            mouseEvents.add(new SimpleMouseEvent(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, -4));
+            }
+            //System.out.println("Added: " + mouseEvents.getLast().toString());
         }
     }
 
