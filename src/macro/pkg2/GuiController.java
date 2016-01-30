@@ -44,7 +44,7 @@ public class GuiController {
         log("Processing...");
         for (SimpleMouseEvent mouseEvent : mouseEvents) {
             progressBar.setProgress(x / mouseEvents.size());
-            output += ("Action " + x + ":    " + mouseEvent.toString() + "\n");
+            output += ("Action " + ((int)x) + ":    " + mouseEvent.toString() + "\n");
             x++;
         }
         textOutput.setText(output);

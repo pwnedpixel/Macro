@@ -61,7 +61,7 @@ public class GlobalKeyListener implements NativeKeyListener {
 
     @Override
     public void nativeKeyTyped(NativeKeyEvent nke) {
-        System.out.println("KeyTyped");
+       // System.out.println("KeyTyped");
     }
 
     private void checkKeys() {
@@ -74,7 +74,7 @@ public class GlobalKeyListener implements NativeKeyListener {
             mouseRecorder.stopRecording();
         }
         if (ctrlDown == true && threeDown == true) {
-            System.out.println("STOPPPP");
+            System.out.println("Stopping Macro");
             mousePlayback.stopPlayback();
         }
     }

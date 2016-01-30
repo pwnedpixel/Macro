@@ -6,6 +6,7 @@
 package macro.pkg2;
 
 import java.awt.Robot;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -38,7 +39,7 @@ public class FXMLDocumentController implements Initializable {
     private GlobalMouseListener mouseListener = new GlobalMouseListener();
     private GlobalKeyListener keyboardListener = new GlobalKeyListener();
     private MouseCollection mouseRecorder = new MouseCollection();
-    private FileHandler fileHandler;
+    private FileHandler fileHandler=new FileHandler();
     private GuiController gui;
     
     // <editor-fold desc="FXML Declarations">
@@ -158,7 +159,7 @@ public class FXMLDocumentController implements Initializable {
         mouseRecorder.start();
         mousePlayback.setList(mouseEvents, gui);
         mousePlayback.start();
-        fileHandler=new FileHandler(mouseEvents,gui);
+        fileHandler.setList(mouseEvents, gui);
         initHooks();
     }
 
