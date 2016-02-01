@@ -18,6 +18,7 @@ public class GlobalKeyListener implements NativeKeyListener {
     boolean oneDown = false;
     boolean twoDown = false;
     boolean threeDown = false;
+    boolean fourDown = false;
     private MouseCollection mouseRecorder;
     private MousePlayback mousePlayback;
 
@@ -41,12 +42,16 @@ public class GlobalKeyListener implements NativeKeyListener {
         {
             threeDown = true;
             checkKeys();
+        } else if (nke.getKeyCode() == 5)//four
+        {
+            fourDown = true;
+            checkKeys();
         }
     }
 
     @Override
     public void nativeKeyReleased(NativeKeyEvent nke) {
-       // System.out.println(ctrlDown+" "+oneDown+" "+twoDown+" "+threeDown);
+        // System.out.println(ctrlDown+" "+oneDown+" "+twoDown+" "+threeDown);
         if (nke.getKeyCode() == 29) {
             ctrlDown = false;
         } else if (nke.getKeyCode() == 2) {
@@ -56,12 +61,15 @@ public class GlobalKeyListener implements NativeKeyListener {
         } else if (nke.getKeyCode() == 4)//three
         {
             threeDown = false;
+        } else if(nke.getKeyCode()==5)//four
+        {
+            fourDown=false;
         }
     }
 
     @Override
     public void nativeKeyTyped(NativeKeyEvent nke) {
-       // System.out.println("KeyTyped");
+        // System.out.println("KeyTyped");
     }
 
     private void checkKeys() {
@@ -76,6 +84,10 @@ public class GlobalKeyListener implements NativeKeyListener {
         if (ctrlDown == true && threeDown == true) {
             System.out.println("Stopping Macro");
             mousePlayback.stopPlayback();
+        } if (ctrlDown==true&& fourDown==true)
+        {
+            System.out.println("toggle pause");
+            mousePlayback.togglePause();
         }
     }
 

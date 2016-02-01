@@ -31,8 +31,6 @@ public class MouseCollection extends Thread
 
     /**
      *
-     * @param mouseEvents A list of SimpleMouseEvents that will be recorded
-     * every 2 ms, or whenever a button is pressed.
      */
     @Override
     public void run()

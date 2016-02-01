@@ -20,6 +20,7 @@ public class MousePlayback extends Thread
     LinkedList<SimpleMouseEvent> mouseEvents;
     private boolean keepAlive = true;
     public boolean playback = false;
+    private boolean pause=false;
     GuiController gui;
     private Robot r = null;
 
@@ -60,6 +61,11 @@ public class MousePlayback extends Thread
             if (!playback) {
                 break;
             }
+            if (pause)
+            {
+                pause();
+                gui.log("Playback Continued.");
+            }
             gui.progressBar.setProgress(x / mouseEvents.size());
             x++;
             r.mouseMove(current.x, current.y);
@@ -87,6 +93,23 @@ public class MousePlayback extends Thread
             }
         }
 
+    }
+    
+    public void togglePause()
+    {
+        pause=!pause;
+    }
+    
+    public void pause()
+    { 
+        gui.log("Playback Paused...");
+        while(pause&&playback){
+             try {
+                Thread.sleep(250);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void click()
