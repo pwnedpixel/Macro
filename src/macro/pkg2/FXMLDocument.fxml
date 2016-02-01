@@ -12,7 +12,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="macro.pkg2.FXMLDocumentController">
     <children>
-        <Label fx:id="label" layoutX="23.0" layoutY="34.0" minHeight="16" minWidth="69" text="USE SYSTEM-&gt;EXIT TO CLOSE PROGRAM" textFill="RED" />
+        <Label fx:id="label" layoutX="23.0" layoutY="34.0" minHeight="16" minWidth="69" text="Simple Macro 2" textFill="RED" />
       <Button fx:id="btnStartRecord" layoutX="21.0" layoutY="79.0" mnemonicParsing="false" onAction="#startRecordingEvent" prefHeight="22.0" prefWidth="109.0" text="Start Recording" />
       <Button fx:id="btnStopRecord" layoutX="21.0" layoutY="116.0" mnemonicParsing="false" onAction="#stopRecordingEvent" prefHeight="25.0" prefWidth="109.0" text="Stop Recording" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="626.0">
@@ -34,7 +34,7 @@
       <TextArea fx:id="logOutput" editable="false" layoutX="309.0" layoutY="330.0" prefHeight="97.0" prefWidth="303.0" wrapText="true" />
       <Label layoutX="309.0" layoutY="34.0" text="Recorded Points:" />
       <Label layoutX="309.0" layoutY="313.0" text="Log:" />
-      <TextArea editable="false" layoutX="22.0" layoutY="330.0" prefHeight="97.0" prefWidth="155.0" text="Hotkeys:&#10;Ctrl+1: Starts Recording&#10;Ctrl+2: Stops Recording&#10;Ctrl+3: Stops Playback" />
+      <TextArea editable="false" layoutX="22.0" layoutY="330.0" prefHeight="97.0" prefWidth="155.0" text="Hotkeys:&#10;Ctrl+1: Starts Recording&#10;Ctrl+2: Stops Recording&#10;Ctrl+3: Stops Playback&#10;Ctrl+4: Pause/Resume" />
       <Button fx:id="setLoop" layoutX="81.0" layoutY="205.0" mnemonicParsing="false" onAction="#setLoopCount" text="Set" />
       <Label layoutX="34.0" layoutY="188.0" text="Loop x Times:" />
       <TextField fx:id="loopCount" layoutX="23.0" layoutY="205.0" prefHeight="25.0" prefWidth="53.0" promptText="1" />
