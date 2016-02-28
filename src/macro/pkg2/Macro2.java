@@ -17,16 +17,15 @@ import javafx.stage.Stage;
  */
 public class Macro2 extends Application
 {
-    
+
     @Override
     public void start(Stage stage) throws Exception
     {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+
         Scene scene = new Scene(root);
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
-        
-        
+
         stage.setScene(scene);
         stage.show();
     }
@@ -38,5 +37,5 @@ public class Macro2 extends Application
     {
         launch(args);
     }
-    
+
 }

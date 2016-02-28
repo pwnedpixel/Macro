@@ -20,6 +20,7 @@ public class GuiController {
     TextArea textOutput;
     ProgressBar progressBar;
     LinkedList<SimpleMouseEvent> mouseEvents;
+    public double macroDuration=0;//duration in cycles. (each cycle is 2ms);
     public int count = 1;
 
     public GuiController(TextArea log, TextArea textOutput, LinkedList<SimpleMouseEvent> mouseEvents, ProgressBar progressBar) {
@@ -38,6 +39,7 @@ public class GuiController {
     }
 
     public void refreshActionList() {
+        macroDuration=0;
         textOutput.clear();
         String output = "";
         double x = 1;
@@ -45,6 +47,13 @@ public class GuiController {
         for (SimpleMouseEvent mouseEvent : mouseEvents) {
             progressBar.setProgress(x / mouseEvents.size());
             output += ("Action " + ((int)x) + ":    " + mouseEvent.toString() + "\n");
+            if (mouseEvent.gclick()<1)
+            {
+                macroDuration++;
+            } else
+            {
+                macroDuration+=(mouseEvent.gclick()/2);
+            }
             x++;
         }
         textOutput.setText(output);

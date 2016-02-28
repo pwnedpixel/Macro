@@ -3,6 +3,7 @@ package macro.pkg2;
 import java.awt.AWTException;
 import java.awt.Robot;
 import static java.awt.event.InputEvent.*;
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,9 +19,10 @@ public class MousePlayback extends Thread
 {
 
     LinkedList<SimpleMouseEvent> mouseEvents;
+    private ZonedDateTime zdt = ZonedDateTime.now();
     private boolean keepAlive = true;
     public boolean playback = false;
-    private boolean pause=false;
+    private boolean pause = false;
     GuiController gui;
     private Robot r = null;
 
@@ -42,7 +44,8 @@ public class MousePlayback extends Thread
                     }
                 }
                 playback = false;
-                gui.log("Macro Finished");
+                zdt =ZonedDateTime.now();
+                gui.log("Macro Finished at " + zdt.getHour() + ":" + zdt.getMinute() + ":" + zdt.getSecond());
             }
 
             try {
@@ -55,18 +58,19 @@ public class MousePlayback extends Thread
 
     private void playback()
     {
+        double macroDuration = gui.macroDuration;
+        double currentCycle = 0;
         System.out.println("Playing Macro...");
         double x = 1;
         for (SimpleMouseEvent current : mouseEvents) {
             if (!playback) {
                 break;
             }
-            if (pause)
-            {
+            if (pause) {
                 pause();
                 gui.log("Playback Continued.");
             }
-            gui.progressBar.setProgress(x / mouseEvents.size());
+            gui.progressBar.setProgress(currentCycle / macroDuration);
             x++;
             r.mouseMove(current.x, current.y);
             if (current.click == -1) {
@@ -79,11 +83,15 @@ public class MousePlayback extends Thread
             } else if (current.click == -4) {
                 r.mouseRelease(BUTTON3_MASK);//release right mouse
                 System.out.println("Release right mouse");
-            }else if (current.click > 0) {
-                try {
-                    Thread.sleep(current.click);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            } else if (current.click > 0) {
+                for (int i = 0; i < current.click / 2; i++) {
+                    gui.progressBar.setProgress(currentCycle / macroDuration);
+                    try {
+                        Thread.sleep(2);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    currentCycle++;
                 }
             }
             try {
@@ -91,20 +99,21 @@ public class MousePlayback extends Thread
             } catch (InterruptedException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            currentCycle++;
         }
 
     }
-    
+
     public void togglePause()
     {
-        pause=!pause;
+        pause = !pause;
     }
-    
+
     public void pause()
-    { 
+    {
         gui.log("Playback Paused...");
-        while(pause&&playback){
-             try {
+        while (pause && playback) {
+            try {
                 Thread.sleep(250);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
