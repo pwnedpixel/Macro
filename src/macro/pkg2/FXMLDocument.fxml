@@ -40,5 +40,6 @@
       <TextField fx:id="loopCount" layoutX="23.0" layoutY="205.0" prefHeight="25.0" prefWidth="53.0" promptText="1" />
       <Label layoutX="552.0" layoutY="433.0" text="KMan 2016" textFill="BLUE" />
       <ProgressBar fx:id="progressBar" layoutX="361.0" layoutY="251.0" prefWidth="200.0" progress="0.0" />
+      <CheckBox fx:id="holdSpacebar" layoutX="28.0" layoutY="279.0" mnemonicParsing="false" text="Hold Down Spacebar" />
     </children>
 </AnchorPane>

@@ -19,10 +19,10 @@ public class MousePlayback extends Thread
 {
 
     LinkedList<SimpleMouseEvent> mouseEvents;
-    private ZonedDateTime zdt = ZonedDateTime.now();
-    private boolean keepAlive = true;
-    public boolean playback = false;
-    private boolean pause = false;
+    private ZonedDateTime zdt = ZonedDateTime.now();//used for completion time
+    private boolean keepAlive = true;//wether or not to keep the thread running.
+    public boolean playback = false;//true if the macro is being played back
+    private boolean pause = false;//true if the macro playback is paused
     GuiController gui;
     private Robot r = null;
 
@@ -37,12 +37,13 @@ public class MousePlayback extends Thread
         while (keepAlive) {
             while (playback) {
                 for (int x = 0; x < gui.count; x++) {
-                    gui.log("Progress: " + (x + 1) + "/" + gui.count);
+                    gui.log("Progress: " + (x + 1) + "/" + gui.count);//Shows how many times the macro has repeated
                     playback();
                     if (!playback) {
                         break;
                     }
                 }
+                //once the macro has been played back the designated amount of times, playback is discontinued
                 playback = false;
                 zdt =ZonedDateTime.now();
                 gui.log("Macro Finished at " + zdt.getHour() + ":" + zdt.getMinute() + ":" + zdt.getSecond());
@@ -56,20 +57,26 @@ public class MousePlayback extends Thread
         }
     }
 
+    /**
+     * Executes the recorded macro once.
+     */
     private void playback()
     {
-        double macroDuration = gui.macroDuration;
+        double macroDuration = gui.macroDuration;//the duration of the macro in cycles (a cycle = 2ms)
         double currentCycle = 0;
         System.out.println("Playing Macro...");
         double x = 1;
+        //executes one event at a time as long as playback is true, if not, the macro stops
         for (SimpleMouseEvent current : mouseEvents) {
             if (!playback) {
                 break;
             }
+            //If the macro playback is set to pause, the thread sleeps until the macro is told to resume
             if (pause) {
                 pause();
                 gui.log("Playback Continued.");
             }
+            //displays the progress of the macro execution
             gui.progressBar.setProgress(currentCycle / macroDuration);
             x++;
             r.mouseMove(current.x, current.y);
@@ -84,6 +91,8 @@ public class MousePlayback extends Thread
                 r.mouseRelease(BUTTON3_MASK);//release right mouse
                 System.out.println("Release right mouse");
             } else if (current.click > 0) {
+                //If the mouse was idle, it passes the number of cycles it remained so. playback waits that 
+                //amount of time before continuing.
                 for (int i = 0; i < current.click / 2; i++) {
                     gui.progressBar.setProgress(currentCycle / macroDuration);
                     try {

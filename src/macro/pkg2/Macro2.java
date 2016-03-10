@@ -28,6 +28,7 @@ public class Macro2 extends Application
 
         stage.setScene(scene);
         stage.show();
+        
     }
 
     /**

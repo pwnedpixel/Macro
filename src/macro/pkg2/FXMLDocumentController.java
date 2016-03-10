@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -75,8 +76,13 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     ProgressBar progressBar;
+    
+    @FXML
+    CheckBox holdSpacebar;
     //</editor-fold>
 
+    // <editor-fold desc="Event Listeners">
+    
     @FXML
     private void playbackEvent(ActionEvent e) {
         mouseRecorder.stopRecording();
@@ -125,7 +131,13 @@ public class FXMLDocumentController implements Initializable {
         gui.setLoopCount(Integer.parseInt(loopCount.getText()));
         
     }
+    
+    //</editor-fold>
 
+    /**
+     *  Initialises the mouse and keyboard hooks to allow recording of keys as well as mouse events 
+     *  when not running in foreground.
+     */
     private void initHooks() {
         try {
             GlobalScreen.registerNativeHook();
@@ -142,6 +154,9 @@ public class FXMLDocumentController implements Initializable {
         keyboardListener.passParams(mouseRecorder, mousePlayback);
     }
 
+    /**
+     *  Removes the keyboard and mouse listener hooks. called when the program is closed.
+     */
     private void removeHooks() {
         GlobalScreen.removeNativeMouseListener(mouseListener);
         GlobalScreen.removeNativeKeyListener(keyboardListener);
