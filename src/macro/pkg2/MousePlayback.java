@@ -31,6 +31,7 @@ public class MousePlayback extends Thread
     {
         try {
             r = new Robot();
+            
         } catch (AWTException ex) {
             Logger.getLogger(MousePlayback.class.getName()).log(Level.SEVERE, null, ex);
         }
